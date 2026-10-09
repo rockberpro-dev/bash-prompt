@@ -1,7 +1,7 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 # Monokai Soda: baseado no preset pastel-powerline do starship
-# rosa #F4005F, laranja #FA8419, amarelo #E0D561, verde #98E024, ciano #58D1EB, roxo #9D65FF
+# rosa #F4005F, laranja #FA8419, amarelo #E0D561, roxo #9D65FF
 
 format = """
 [](#F4005F)\
@@ -12,25 +12,7 @@ $directory\
 [](fg:#FA8419 bg:#E0D561)\
 $git_branch\
 $git_status\
-[](fg:#E0D561 bg:#98E024)\
-$c\
-$elixir\
-$elm\
-$golang\
-$gradle\
-$haskell\
-$java\
-$julia\
-$maven\
-$nodejs\
-$php\
-$bun\
-$nim\
-$rust\
-$scala\
-[](fg:#98E024 bg:#58D1EB)\
-$docker_context\
-[](fg:#58D1EB bg:#9D65FF)\
+[](fg:#E0D561 bg:#9D65FF)\
 $time\
 [ ](fg:#9D65FF)\
 """
@@ -72,31 +54,6 @@ truncation_symbol = "…/"
 # So either put "Important Documents" before "Documents" or use the substituted version:
 # "Important 󰈙 " = " 󰈙 "
 
-[c]
-symbol = " "
-style = "fg:#1A1A1A bg:#98E024"
-format = '[ $symbol ($version) ]($style)'
-
-[cpp]
-symbol = " "
-style = "fg:#1A1A1A bg:#98E024"
-format = '[ $symbol ($version) ]($style)'
-
-[docker_context]
-symbol = " "
-style = "fg:#1A1A1A bg:#58D1EB"
-format = '[ $symbol $context ]($style)'
-
-[elixir]
-symbol = " "
-style = "fg:#1A1A1A bg:#98E024"
-format = '[ $symbol ($version) ]($style)'
-
-[elm]
-symbol = " "
-style = "fg:#1A1A1A bg:#98E024"
-format = '[ $symbol ($version) ]($style)'
-
 [git_branch]
 symbol = ""
 style = "fg:#1A1A1A bg:#E0D561"
@@ -106,66 +63,8 @@ format = '[ $symbol $branch ]($style)'
 style = "fg:#1A1A1A bg:#E0D561"
 format = '[$all_status$ahead_behind ]($style)'
 
-[golang]
-symbol = " "
-style = "fg:#1A1A1A bg:#98E024"
-format = '[ $symbol ($version) ]($style)'
-
-[gradle]
-style = "fg:#1A1A1A bg:#98E024"
-format = '[ $symbol ($version) ]($style)'
-
-[haskell]
-symbol = " "
-style = "fg:#1A1A1A bg:#98E024"
-format = '[ $symbol ($version) ]($style)'
-
-[java]
-symbol = " "
-style = "fg:#1A1A1A bg:#98E024"
-format = '[ $symbol ($version) ]($style)'
-
-[julia]
-symbol = " "
-style = "fg:#1A1A1A bg:#98E024"
-format = '[ $symbol ($version) ]($style)'
-
-[maven]
-style = "fg:#1A1A1A bg:#98E024"
-format = '[ $symbol ($version) ]($style)'
-
-[nodejs]
-symbol = ""
-style = "fg:#1A1A1A bg:#98E024"
-format = '[ $symbol ($version) ]($style)'
-
-[bun]
-symbol = ""
-style = "fg:#1A1A1A bg:#98E024"
-format = '[ $symbol ($version) ]($style)'
-
-[nim]
-symbol = "󰆥 "
-style = "fg:#1A1A1A bg:#98E024"
-format = '[ $symbol ($version) ]($style)'
-
-[rust]
-symbol = ""
-style = "fg:#1A1A1A bg:#98E024"
-format = '[ $symbol ($version) ]($style)'
-
-[scala]
-symbol = " "
-style = "fg:#1A1A1A bg:#98E024"
-format = '[ $symbol ($version) ]($style)'
-
 [time]
 disabled = false
 time_format = "%R" # Hour:Minute Format
 style = "fg:#1A1A1A bg:#9D65FF"
 format = '[ 󰥔 $time ]($style)'
-
-[php]
-symbol = " "
-style = "fg:#1A1A1A bg:#98E024"
-format = '[ $symbol ($version) ]($style)'
