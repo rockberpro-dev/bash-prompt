@@ -1,51 +1,51 @@
-# bash-prompt
+# Bash Prompt
 
-Prompt e configurações de terminal para bash:
+Prompt and terminal settings for bash:
 
-- prompt com diretório (2 últimos níveis) e branch git com estado
-- duração do comando quando passa de 5s
-- destaque para hosts de produção (faixa vermelha) e sessões SSH
-- histórico grande, sem duplicatas, com data/hora e compartilhado entre sessões
-- integra `fzf` (Ctrl-R / Ctrl-T) e `zoxide` (`z`), se estiverem instalados
+- prompt with the current directory (last 2 levels) and git branch with status
+- command duration when it takes longer than 5s
+- highlight for production hosts (red banner) and SSH sessions
+- large history, no duplicates, with timestamps, shared across sessions
+- `fzf` (Ctrl-R / Ctrl-T) and `zoxide` (`z`) integration, when installed
 
-## Instalação
+## Installation
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/rockberpro/bash-prompt/main/install.sh | bash
 ```
 
-Ou com `wget`:
+Or with `wget`:
 
 ```bash
 wget -qO- https://raw.githubusercontent.com/rockberpro/bash-prompt/main/install.sh | bash
 ```
 
-Ou a partir de um clone:
+Or from a clone:
 
 ```bash
 git clone https://github.com/rockberpro/bash-prompt.git
 bash bash-prompt/install.sh
 ```
 
-O instalador copia o `terminal.sh` para `~/.bashrc.d/` e adiciona ao fim do `~/.bashrc`:
+The installer copies `terminal.sh` to `~/.bashrc.d/` and appends this line to `~/.bashrc`:
 
 ```bash
 [ -f ~/.bashrc.d/terminal.sh ] && . ~/.bashrc.d/terminal.sh
 ```
 
-Pode ser rodado de novo para atualizar; a linha não é duplicada. Depois, abra um novo terminal ou rode `. ~/.bashrc`.
+It can be run again to update; the line is not duplicated. Then open a new terminal or run `. ~/.bashrc`.
 
-## Opcional: Starship
+## Optional: Starship
 
-Prompt em blocos coloridos com ícones, via [Starship](https://starship.rs). Instale com `--starship`:
+Colored block prompt with icons, via [Starship](https://starship.rs). Install with `--starship`:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/rockberpro/bash-prompt/main/install.sh | bash -s -- --starship
 ```
 
-Isso instala o `starship` em `~/.local/bin` e, se ainda não existir, cria `~/.config/starship.toml` com o tema Monokai Soda deste repositório (`starship.toml`, baseado no preset `pastel-powerline`). Se o arquivo já existir, ele é mantido. Quando o `starship` está no `PATH`, o `terminal.sh` usa ele no prompt; histórico, `fzf` e `zoxide` continuam iguais. Para voltar ao prompt simples, remova o binário: `rm ~/.local/bin/starship`.
+This installs `starship` to `~/.local/bin` and, if it doesn't exist yet, creates `~/.config/starship.toml` with this repo's Monokai Soda theme (`starship.toml`, based on the `pastel-powerline` preset). An existing file is kept. When `starship` is on the `PATH`, `terminal.sh` uses it for the prompt; history, `fzf` and `zoxide` stay the same. To go back to the plain prompt, remove the binary: `rm ~/.local/bin/starship`.
 
-Os ícones precisam de uma [Nerd Font](https://www.nerdfonts.com) configurada no terminal. Para instalar a JetBrainsMono:
+The icons require a [Nerd Font](https://www.nerdfonts.com) set in your terminal. To install JetBrainsMono:
 
 ```bash
 mkdir -p ~/.local/share/fonts
@@ -53,31 +53,31 @@ curl -fsSL https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetB
 fc-cache -f
 ```
 
-Depois escolha "JetBrainsMono Nerd Font" nas preferências do terminal.
+Then select "JetBrainsMono Nerd Font" in your terminal preferences.
 
-Outros visuais: `starship preset --list` e `starship preset <nome> -o ~/.config/starship.toml`. Para voltar ao Monokai Soda, copie o `starship.toml` daqui para `~/.config/`.
+Other looks: `starship preset --list` and `starship preset <name> -o ~/.config/starship.toml`. To go back to Monokai Soda, copy this repo's `starship.toml` to `~/.config/`.
 
-## Estado do git no prompt
+## Git status in the prompt
 
-| Símbolo | Significado                         |
-|---------|-------------------------------------|
-| `*`     | alterações não staged               |
-| `+`     | alterações staged                   |
-| `%`     | arquivos não rastreados             |
-| `<`     | atrás do remoto                     |
-| `>`     | à frente do remoto                  |
-| `<>`    | divergiu do remoto                  |
-| `=`     | sincronizado com o remoto           |
+| Symbol | Meaning                  |
+|--------|--------------------------|
+| `*`    | unstaged changes         |
+| `+`    | staged changes           |
+| `%`    | untracked files          |
+| `<`    | behind upstream          |
+| `>`    | ahead of upstream        |
+| `<>`   | diverged from upstream   |
+| `=`    | in sync with upstream    |
 
-## Personalização
+## Customization
 
-Edite `~/.bashrc.d/terminal.sh`:
+Edit `~/.bashrc.d/terminal.sh`:
 
-- `__is_prod_host`: padrões de hostname considerados produção (padrão: `*prod*`, `*prd*`)
-- `PROMPT_DIRTRIM`: quantos níveis do diretório mostrar
-- `HISTSIZE` / `HISTFILESIZE`: tamanho do histórico
+- `__is_prod_host`: hostname patterns treated as production (default: `*prod*`, `*prd*`)
+- `PROMPT_DIRTRIM`: how many directory levels to show
+- `HISTSIZE` / `HISTFILESIZE`: history size
 
-## Desinstalação
+## Uninstall
 
 ```bash
 rm ~/.bashrc.d/terminal.sh
