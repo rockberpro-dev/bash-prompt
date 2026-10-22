@@ -1,56 +1,217 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
-# Cores do preset gruvbox-rainbow do starship (hex direto, sem palette)
+
 format = """
-[](#D65D0E)\
+[](color_orange)\
 $os\
 $username\
-[](bg:#D79921 fg:#D65D0E)\
+[](bg:color_yellow fg:color_orange)\
 $directory\
-[](fg:#D79921 bg:#689D6A)\
+${custom.projeto}\
+${custom.sep_sem_git}\
 $git_branch\
 $git_status\
-[](fg:#689D6A bg:#3C3836)\
+[](fg:color_aqua bg:color_blue)\
+$c\
+$cpp\
+$rust\
+$golang\
+$nodejs\
+$bun\
+$php\
+$java\
+$kotlin\
+$haskell\
+$python\
+[](fg:color_blue bg:color_bg3)\
+$docker_context\
+$conda\
+$pixi\
+[](fg:color_bg3 bg:color_bg1)\
 $time\
-[ ](fg:#3C3836)\
+[ ](fg:color_bg1)\
 """
 
-# Disable the blank line at the start of the prompt
-# add_newline = false
+
+palette = 'gruvbox_dark'
+
+
+[palettes.gruvbox_dark]
+color_fg0 = '#fbf1c7'
+color_bg1 = '#3c3836'
+color_bg3 = '#665c54'
+color_blue = '#458588'
+color_aqua = '#689d6a'
+color_green = '#98971a'
+color_orange = '#d65d0e'
+color_purple = '#b16286'
+color_red = '#cc241d'
+color_yellow = '#d79921'
+
+
+[os]
+disabled = false
+style = "bg:color_orange fg:color_fg0"
+
+
+[os.symbols]
+Windows = "󰍲 "
+Ubuntu = "󰕈 "
+SUSE = " "
+Raspbian = "󰐿 "
+Mint = "󰣭 "
+Macos = "󰀵 "
+Manjaro = " "
+Linux = "󰌽 "
+Gentoo = "󰣨 "
+Fedora = "󰣛 "
+Alpine = " "
+Amazon = " "
+Android = " "
+AOSC = " "
+Arch = "󰣇 "
+Artix = "󰣇 "
+EndeavourOS = " "
+CentOS = " "
+Debian = "󰣚 "
+Redhat = "󱄛 "
+RedHatEnterprise = "󱄛 "
+Pop = " "
+
 
 [username]
 show_always = true
-style_user = "bg:#D65D0E fg:#FBF1C7"
-style_root = "bg:#D65D0E fg:#FBF1C7"
-format = '[ $user ]($style)'
+style_user = "bg:color_orange fg:color_fg0"
+style_root = "bg:color_orange fg:color_fg0"
+format = '[$user ]($style)'
 
-[os]
-style = "bg:#D65D0E fg:#FBF1C7"
-disabled = true # Disabled by default
 
 [directory]
-style = "fg:#FBF1C7 bg:#D79921"
+style = "fg:color_fg0 bg:color_yellow"
 format = "[ $path ]($style)"
 truncation_length = 3
 truncation_symbol = "…/"
+
 
 [directory.substitutions]
 "Documents" = "󰈙 "
 "Downloads" = " "
 "Music" = "󰝚 "
 "Pictures" = " "
+"Developer" = "󰲋 "
+
 
 [git_branch]
 symbol = ""
-style = "bg:#689D6A"
-format = '[[ $symbol $branch ](fg:#FBF1C7 bg:#689D6A)]($style)'
+style = "bg:color_aqua"
+format = '[[ $symbol $branch ](fg:color_fg0 bg:color_aqua)]($style)'
+
 
 [git_status]
-style = "bg:#689D6A"
-format = '[[($all_status$ahead_behind )](fg:#FBF1C7 bg:#689D6A)]($style)'
+style = "bg:color_aqua"
+format = '[[($all_status$ahead_behind )](fg:color_fg0 bg:color_aqua)]($style)'
+
+
+[nodejs]
+symbol = ""
+style = "bg:color_blue"
+format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+
+
+[bun]
+symbol = ""
+style = "bg:color_blue"
+format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+
+
+[c]
+symbol = " "
+style = "bg:color_blue"
+format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+
+
+[cpp]
+symbol = " "
+style = "bg:color_blue"
+format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+
+
+[rust]
+symbol = ""
+style = "bg:color_blue"
+format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+
+
+[golang]
+symbol = ""
+style = "bg:color_blue"
+format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+
+
+[php]
+symbol = ""
+style = "bg:color_blue"
+format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+
+
+[java]
+symbol = ""
+style = "bg:color_blue"
+format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+
+
+[kotlin]
+symbol = ""
+style = "bg:color_blue"
+format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+
+
+[haskell]
+symbol = ""
+style = "bg:color_blue"
+format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+
+
+[python]
+symbol = ""
+style = "bg:color_blue"
+format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+
+
+[docker_context]
+symbol = ""
+style = "bg:color_bg3"
+format = '[[ $symbol( $context) ](fg:#83a598 bg:color_bg3)]($style)'
+
+
+[conda]
+style = "bg:color_bg3"
+format = '[[ $symbol( $environment) ](fg:#83a598 bg:color_bg3)]($style)'
+
+
+[pixi]
+style = "bg:color_bg3"
+format = '[[ $symbol( $version)( $environment) ](fg:color_fg0 bg:color_bg3)]($style)'
+
 
 [time]
 disabled = false
 time_format = "%R"
-style = "bg:#3C3836"
-format = '[[  $time ](fg:#FBF1C7 bg:#3C3836)]($style)'
+style = "bg:color_bg1"
+format = '[[  $time ](fg:color_fg0 bg:color_bg1)]($style)'
+
+
+[custom.projeto]
+description = "Nome do projeto git (raiz do repositório)"
+command = 'r="$(git rev-parse --show-toplevel)"; case "$r" in /var/www/html/*) echo "${r#/var/www/html/}" ;; *) basename "$r" ;; esac'
+when = true
+require_repo = true
+shell = ["bash", "--noprofile", "--norc"]
+format = "[\ue0b0](fg:color_yellow bg:color_purple)[ \U000F03D7 $output ](fg:color_fg0 bg:color_purple)[\ue0b0](fg:color_purple bg:color_aqua)"
+
+
+[custom.sep_sem_git]
+description = "Separador amarelo -> roxo -> verde quando fora de um repo git"
+when = "! git rev-parse --is-inside-work-tree >/dev/null 2>&1"
+shell = ["bash", "--noprofile", "--norc"]
+format = "[\ue0b0](fg:color_yellow bg:color_purple)[\ue0b0](fg:color_purple bg:color_aqua)"
