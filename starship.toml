@@ -1,70 +1,56 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
-# Monokai Soda: baseado no preset pastel-powerline do starship
-# rosa #F4005F, laranja #FA8419, amarelo #E0D561, roxo #9D65FF
-
+# Cores do preset gruvbox-rainbow do starship (hex direto, sem palette)
 format = """
-[](#F4005F)\
+[](#D65D0E)\
 $os\
 $username\
-[](bg:#FA8419 fg:#F4005F)\
+[](bg:#D79921 fg:#D65D0E)\
 $directory\
-[](fg:#FA8419 bg:#E0D561)\
+[](fg:#D79921 bg:#689D6A)\
 $git_branch\
 $git_status\
-[](fg:#E0D561 bg:#9D65FF)\
+[](fg:#689D6A bg:#3C3836)\
 $time\
-[ ](fg:#9D65FF)\
+[ ](fg:#3C3836)\
 """
 
 # Disable the blank line at the start of the prompt
 # add_newline = false
 
-# You can also replace your username with a neat symbol like   or disable this
-# and use the os module below
 [username]
 show_always = true
-style_user = "fg:#1A1A1A bg:#F4005F"
-style_root = "fg:#1A1A1A bg:#F4005F"
-format = '[$user ]($style)'
-disabled = false
+style_user = "bg:#D65D0E fg:#FBF1C7"
+style_root = "bg:#D65D0E fg:#FBF1C7"
+format = '[ $user ]($style)'
 
-# An alternative to the username module which displays a symbol that
-# represents the current operating system
 [os]
-style = "fg:#1A1A1A bg:#F4005F"
+style = "bg:#D65D0E fg:#FBF1C7"
 disabled = true # Disabled by default
 
 [directory]
-style = "fg:#1A1A1A bg:#FA8419"
+style = "fg:#FBF1C7 bg:#D79921"
 format = "[ $path ]($style)"
 truncation_length = 3
 truncation_symbol = "…/"
 
-# Here is how you can shorten some long paths by text replacement
-# similar to mapped_locations in Oh My Posh:
 [directory.substitutions]
 "Documents" = "󰈙 "
 "Downloads" = " "
-"Music" = " "
+"Music" = "󰝚 "
 "Pictures" = " "
-# Keep in mind that the order matters. For example:
-# "Important Documents" = " 󰈙 "
-# will not be replaced, because "Documents" was already substituted before.
-# So either put "Important Documents" before "Documents" or use the substituted version:
-# "Important 󰈙 " = " 󰈙 "
 
 [git_branch]
 symbol = ""
-style = "fg:#1A1A1A bg:#E0D561"
-format = '[ $symbol $branch ]($style)'
+style = "bg:#689D6A"
+format = '[[ $symbol $branch ](fg:#FBF1C7 bg:#689D6A)]($style)'
 
 [git_status]
-style = "fg:#1A1A1A bg:#E0D561"
-format = '[$all_status$ahead_behind ]($style)'
+style = "bg:#689D6A"
+format = '[[($all_status$ahead_behind )](fg:#FBF1C7 bg:#689D6A)]($style)'
 
 [time]
 disabled = false
-time_format = "%R" # Hour:Minute Format
-style = "fg:#1A1A1A bg:#9D65FF"
-format = '[ 󰥔 $time ]($style)'
+time_format = "%R"
+style = "bg:#3C3836"
+format = '[[  $time ](fg:#FBF1C7 bg:#3C3836)]($style)'
