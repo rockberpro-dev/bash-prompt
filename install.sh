@@ -138,13 +138,13 @@ if (( starship )); then
   fi
 
   if [[ $font == none ]]; then
-    echo "Starship instalado. Use uma Nerd Font no terminal para ver os ícones (veja o README)."
+    echo "Starship instalado. Use uma Nerd Font no terminal para ver os ícones (veja o GUIDE.md)."
   else
     dest=$HOME/.local/share/fonts/$font
     if [[ -d $dest ]]; then
       echo "Fonte $font já instalada"
     elif ! command -v xz >/dev/null; then
-      echo "xz não encontrado, fonte não instalada (veja o README)" >&2
+      echo "xz não encontrado, fonte não instalada (veja o GUIDE.md)" >&2
     else
       mkdir -p "$dest"
       if ! fetch "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/$font.tar.xz" | tar -xJ -C "$dest"; then
