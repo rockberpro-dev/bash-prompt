@@ -43,7 +43,13 @@ Colored block prompt with icons, via [Starship](https://starship.rs). Install wi
 curl -fsSL https://raw.githubusercontent.com/rockberpro/bash-prompt/main/install.sh | bash -s -- --starship
 ```
 
-This installs `starship` to `~/.local/bin` and, if it doesn't exist yet, creates `~/.config/starship.toml` with this repo's theme (`starship.toml`, colors from the `gruvbox-rainbow` preset). An existing file is kept. When `starship` is on the `PATH`, `terminal.sh` uses it for the prompt; history, `fzf` and `zoxide` stay the same. To go back to the plain prompt, remove the binary: `rm ~/.local/bin/starship`.
+The installer asks where to put `starship`: `~/.local/bin` (just you, no root needed; the default) or `/usr/local/bin` (all users, needs `sudo`). To skip the question, add `--local` or `--system`:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/rockberpro/bash-prompt/main/install.sh | bash -s -- --starship --local
+```
+
+It also, if it doesn't exist yet, creates `~/.config/starship.toml` with this repo's theme (`starship.toml`, colors from the `gruvbox-rainbow` preset). An existing file is kept. When `starship` is on the `PATH`, `terminal.sh` uses it for the prompt; history, `fzf` and `zoxide` stay the same. To go back to the plain prompt, remove the binary: `rm ~/.local/bin/starship` or `sudo rm /usr/local/bin/starship`.
 
 The icons require a [Nerd Font](https://www.nerdfonts.com) set in your terminal. To install JetBrainsMono:
 
