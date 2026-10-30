@@ -57,15 +57,13 @@ curl -fsSL https://raw.githubusercontent.com/rockberpro/bash-prompt/main/install
 
 If `~/.config/starship.toml` doesn't exist yet, it is created with the chosen theme. An existing file is kept, unless you picked a theme (in the menu or with `--theme`): then it is saved as `~/.config/starship.toml.bak` and replaced. Without a terminal to ask, the default is used. When `starship` is on the `PATH`, `terminal.sh` uses it for the prompt; history, `fzf` and `zoxide` stay the same. To go back to the plain prompt, remove the binary: `rm ~/.local/bin/starship` or `sudo rm /usr/local/bin/starship`.
 
-The icons require a [Nerd Font](https://www.nerdfonts.com) set in your terminal. To install JetBrainsMono:
+The icons require a [Nerd Font](https://www.nerdfonts.com) set in your terminal. The installer asks which one to install: option 1 (default) is JetBrainsMono, the last option skips the font. It goes to `~/.local/share/fonts/<name>/` and the font cache is refreshed with `fc-cache -f`. To skip the question, pass `--font=<name>` (any name from the [nerd-fonts releases](https://github.com/ryanoasis/nerd-fonts/releases), or `none`):
 
 ```bash
-mkdir -p ~/.local/share/fonts
-curl -fsSL https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.tar.xz | tar -xJ -C ~/.local/share/fonts
-fc-cache -f
+curl -fsSL https://raw.githubusercontent.com/rockberpro/bash-prompt/main/install.sh | bash -s -- --font=FiraCode
 ```
 
-Then select "JetBrainsMono Nerd Font" in your terminal preferences.
+Then select the installed font (e.g. "JetBrainsMono Nerd Font") in your terminal preferences. To remove it: `rm -rf ~/.local/share/fonts/<name> && fc-cache -f`.
 
 Other looks: `starship preset --list` and `starship preset <name> -o ~/.config/starship.toml`. To go back to this theme, copy this repo's `starship.toml` to `~/.config/`.
 

@@ -1,24 +1,29 @@
 #!/usr/bin/env bash
 # Instala o terminal.sh em ~/.bashrc.d/ e o carrega no fim do ~/.bashrc.
-#   local:  bash install.sh [--starship] [--local|--system] [--theme=<nome>]   (com os arquivos na mesma pasta)
-#   remoto: curl -fsSL <url>/install.sh | bash [-s -- --starship [--local|--system] [--theme=<nome>]]
+#   local:  bash install.sh [--starship] [--local|--system] [--theme=<nome>] [--font=<nome>]   (com os arquivos na mesma pasta)
+#   remoto: curl -fsSL <url>/install.sh | bash [-s -- --starship [--local|--system] [--theme=<nome>] [--font=<nome>]]
 # --starship: instala também o starship, com o tema monokai (starship.toml) ou um preset
 #   --local:  starship em ~/.local/bin (só para você, sem root)
 #   --system: starship em /usr/local/bin (todos os usuários, precisa de sudo)
 #   sem nenhum dos dois, pergunta onde instalar
 #   --theme=<nome>: monokai (padrão) ou um preset de `starship preset --list`;
 #                   sem a opção, pergunta qual tema usar
+#   --font=<nome>:  Nerd Font em ~/.local/share/fonts/<nome>: JetBrainsMono (padrão), outra de
+#                   https://github.com/ryanoasis/nerd-fonts/releases ou none (não instala);
+#                   sem a opção, pergunta qual fonte instalar
 set -euo pipefail
 
 starship=0
 bin_dir=
 theme=
+font=
 for arg in "$@"; do
   case $arg in
     --starship) starship=1 ;;
     --local)    starship=1; bin_dir=$HOME/.local/bin ;;
     --system)   starship=1; bin_dir=/usr/local/bin ;;
     --theme=?*) starship=1; theme=${arg#--theme=} ;;
+    --font=?*)  starship=1; font=${arg#--font=} ;;
     *) echo "Opção desconhecida: $arg" >&2; exit 1 ;;
   esac
 done
@@ -113,7 +118,48 @@ if (( starship )); then
     "$starship_bin" preset "$theme" -o ~/.config/starship.toml
   fi
   [[ $bin_dir != "$HOME/.local/bin" || :$PATH: == *:$HOME/.local/bin:* ]] || echo "Atenção: adicione ~/.local/bin ao PATH antes do terminal.sh no ~/.bashrc"
-  echo "Starship instalado. Use uma Nerd Font no terminal para ver os ícones (veja o README)."
+
+  fonts=(JetBrainsMono FiraCode Hack Meslo CascadiaCode SourceCodePro UbuntuMono Iosevka RobotoMono)
+  if [[ -z $font ]]; then
+    font=JetBrainsMono
+    if { exec 3</dev/tty; } 2>/dev/null; then
+      echo "Qual Nerd Font instalar?"
+      echo "  1) JetBrainsMono [padrão]"
+      for i in "${!fonts[@]}"; do (( i )) && echo "  $((i + 1))) ${fonts[i]}"; done
+      echo "  $((${#fonts[@]} + 1))) nenhuma (pular)"
+      read -rp "Escolha [1]: " ans <&3 || ans=
+      exec 3<&-
+      if [[ $ans =~ ^[0-9]+$ ]] && (( ans >= 2 && ans <= ${#fonts[@]} )); then
+        font=${fonts[ans - 1]}
+      elif [[ $ans == $((${#fonts[@]} + 1)) ]]; then
+        font=none
+      fi
+    fi
+  fi
+
+  if [[ $font == none ]]; then
+    echo "Starship instalado. Use uma Nerd Font no terminal para ver os ícones (veja o README)."
+  else
+    dest=$HOME/.local/share/fonts/$font
+    if [[ -d $dest ]]; then
+      echo "Fonte $font já instalada"
+    elif ! command -v xz >/dev/null; then
+      echo "xz não encontrado, fonte não instalada (veja o README)" >&2
+    else
+      mkdir -p "$dest"
+      if ! fetch "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/$font.tar.xz" | tar -xJ -C "$dest"; then
+        rm -rf "$dest"
+        echo "Fonte desconhecida ou falha no download: $font" >&2
+        exit 1
+      fi
+      command -v fc-cache >/dev/null && fc-cache -f
+    fi
+    family=
+    if command -v fc-scan >/dev/null && compgen -G "$dest/*.[to]tf" >/dev/null; then
+      family=$(fc-scan --format '%{family[0]}\n' "$dest"/*.[to]tf | sort -u | head -1)
+    fi
+    echo "Starship instalado. Selecione \"${family:-$font Nerd Font}\" nas preferências do terminal."
+  fi
 fi
 
 echo "Instalado. Abra um novo terminal ou rode: . ~/.bashrc"
