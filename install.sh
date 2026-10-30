@@ -1,20 +1,24 @@
 #!/usr/bin/env bash
 # Instala o terminal.sh em ~/.bashrc.d/ e o carrega no fim do ~/.bashrc.
-#   local:  bash install.sh [--starship] [--local|--system]   (com os arquivos na mesma pasta)
-#   remoto: curl -fsSL <url>/install.sh | bash [-s -- --starship [--local|--system]]
-# --starship: instala também o starship, com o tema Monokai Soda (starship.toml)
+#   local:  bash install.sh [--starship] [--local|--system] [--theme=<nome>]   (com os arquivos na mesma pasta)
+#   remoto: curl -fsSL <url>/install.sh | bash [-s -- --starship [--local|--system] [--theme=<nome>]]
+# --starship: instala também o starship, com o tema monokai (starship.toml) ou um preset
 #   --local:  starship em ~/.local/bin (só para você, sem root)
 #   --system: starship em /usr/local/bin (todos os usuários, precisa de sudo)
 #   sem nenhum dos dois, pergunta onde instalar
+#   --theme=<nome>: monokai (padrão) ou um preset de `starship preset --list`;
+#                   sem a opção, pergunta qual tema usar
 set -euo pipefail
 
 starship=0
 bin_dir=
+theme=
 for arg in "$@"; do
   case $arg in
     --starship) starship=1 ;;
     --local)    starship=1; bin_dir=$HOME/.local/bin ;;
     --system)   starship=1; bin_dir=/usr/local/bin ;;
+    --theme=?*) starship=1; theme=${arg#--theme=} ;;
     *) echo "Opção desconhecida: $arg" >&2; exit 1 ;;
   esac
 done
@@ -63,10 +67,50 @@ if (( starship )); then
     fetch https://starship.rs/install.sh | sh -s -- -y -b "$bin_dir"
   fi
   mkdir -p ~/.config
+
+  starship_bin=$(command -v starship || echo "$bin_dir/starship")
+  all_presets=()
+  while IFS= read -r p; do all_presets+=("$p"); done < <("$starship_bin" preset --list)
+  # presets que só ajustam símbolos, não são temas completos
+  modifiers=" bracketed-segments nerd-font-symbols no-empty-icons no-nerd-font no-runtime-versions plain-text-symbols "
+  menu=()
+  for p in "${all_presets[@]}"; do [[ $modifiers == *" $p "* ]] || menu+=("$p"); done
+
+  explicit=0
+  [[ -n $theme ]] && explicit=1
+  if [[ -z $theme ]]; then
+    theme=monokai
+    if { exec 3</dev/tty; } 2>/dev/null; then
+      echo "Qual tema do starship?"
+      echo "  1) monokai (deste repo) [padrão]"
+      for i in "${!menu[@]}"; do echo "  $((i + 2))) ${menu[i]}"; done
+      read -rp "Escolha [1]: " ans <&3 || ans=
+      exec 3<&-
+      [[ -n $ans ]] && explicit=1
+      if [[ $ans =~ ^[0-9]+$ ]] && (( ans >= 2 && ans <= ${#menu[@]} + 1 )); then
+        theme=${menu[ans - 2]}
+      fi
+    fi
+  fi
+
+  if [[ $theme != monokai && " ${all_presets[*]} " != *" $theme "* ]]; then
+    echo "Tema desconhecido: $theme (veja: starship preset --list)" >&2
+    exit 1
+  fi
+
   if [[ -f ~/.config/starship.toml ]]; then
-    echo "~/.config/starship.toml já existe, mantido (o tema Monokai Soda não foi aplicado)"
-  else
+    if (( explicit )); then
+      cp ~/.config/starship.toml ~/.config/starship.toml.bak
+      echo "~/.config/starship.toml anterior salvo em ~/.config/starship.toml.bak"
+    else
+      echo "~/.config/starship.toml já existe, mantido (o tema $theme não foi aplicado)"
+      theme=
+    fi
+  fi
+  if [[ $theme == monokai ]]; then
     install_file starship.toml ~/.config/starship.toml
+  elif [[ -n $theme ]]; then
+    "$starship_bin" preset "$theme" -o ~/.config/starship.toml
   fi
   [[ $bin_dir != "$HOME/.local/bin" || :$PATH: == *:$HOME/.local/bin:* ]] || echo "Atenção: adicione ~/.local/bin ao PATH antes do terminal.sh no ~/.bashrc"
   echo "Starship instalado. Use uma Nerd Font no terminal para ver os ícones (veja o README)."
