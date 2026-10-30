@@ -49,7 +49,13 @@ The installer asks where to put `starship`: `~/.local/bin` (just you, no root ne
 curl -fsSL https://raw.githubusercontent.com/rockberpro/bash-prompt/main/install.sh | bash -s -- --starship --local
 ```
 
-It also, if it doesn't exist yet, creates `~/.config/starship.toml` with this repo's theme (`starship.toml`, colors from the `gruvbox-rainbow` preset). An existing file is kept. When `starship` is on the `PATH`, `terminal.sh` uses it for the prompt; history, `fzf` and `zoxide` stay the same. To go back to the plain prompt, remove the binary: `rm ~/.local/bin/starship` or `sudo rm /usr/local/bin/starship`.
+It then asks which theme to use: option 1 (default) is this repo's `monokai` theme (`starship.toml`); the others come from `starship preset --list`. To skip the question, pass `--theme=<name>` (`monokai` or a preset name):
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/rockberpro/bash-prompt/main/install.sh | bash -s -- --theme=tokyo-night
+```
+
+If `~/.config/starship.toml` doesn't exist yet, it is created with the chosen theme. An existing file is kept, unless you picked a theme (in the menu or with `--theme`): then it is saved as `~/.config/starship.toml.bak` and replaced. Without a terminal to ask, the default is used. When `starship` is on the `PATH`, `terminal.sh` uses it for the prompt; history, `fzf` and `zoxide` stay the same. To go back to the plain prompt, remove the binary: `rm ~/.local/bin/starship` or `sudo rm /usr/local/bin/starship`.
 
 The icons require a [Nerd Font](https://www.nerdfonts.com) set in your terminal. To install JetBrainsMono:
 
