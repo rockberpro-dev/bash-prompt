@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="resources/img/bash.png" alt="Bash" width="128">
+</p>
+
 # Bash Prompt
 
 Prompt and terminal settings for bash.
